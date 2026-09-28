@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { useState } from 'react'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+function TodoList () {
+  const [todos, setTodos] = useState([])
+  const [inputValue, setInputValue] = useState('')
+
+function handleChange(e){
+  setInputValue(e.target.value)
 }
 
-export default App;
+function handleSubmit(e){
+  e.preventDefault()
+  setTodos([...todos, {text: inputValue, date: new Date().toLocaleString()}]) /* This inputs the habit and the current date*/
+  setInputValue('')
+}
+
+function handleDelete(index){
+  const newTodos = [...todos]
+  newTodos.splice(index, 1)
+  setTodos(newTodos)
+}
+  return (
+    <div>
+      <h1>Habit Tracker</h1>
+      <form>
+        <input type='text' value={inputValue} onChange={handleChange}/>
+        <button onClick={handleSubmit}>Add Habit</button>
+      </form>
+      <ul>
+        {todos.map((todo, index) => (
+          <li key={index}>{todo.text} - {todo.date}
+          <button onClick={() =>handleDelete(index)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+export default TodoList;
