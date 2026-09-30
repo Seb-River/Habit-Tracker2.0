@@ -38,5 +38,4 @@ function handleDelete(index){
   )
 }
 
-
 export default TodoList;
